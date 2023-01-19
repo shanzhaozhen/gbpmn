@@ -1,0 +1,6 @@
+rootProject.name = 'gbpmn'
+
+include 'gbpmn-api'
+include 'gbpmn-context'
+include 'gbpmn-core'
+include 'gbpmn-el'

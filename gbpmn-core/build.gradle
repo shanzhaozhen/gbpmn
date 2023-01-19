@@ -1,0 +1,16 @@
+description = 'gbpmn-core'
+
+apply plugin: 'java-library'
+
+dependencies {
+
+//    api(
+//    )
+
+//    implementation(
+//    )
+
+}
+
+
+
