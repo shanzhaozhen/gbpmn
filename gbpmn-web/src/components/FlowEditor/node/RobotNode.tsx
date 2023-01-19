@@ -1,9 +1,9 @@
 import React from 'react'
-import {CarryOutTwoTone} from "@ant-design/icons";
+import {SettingTwoTone} from "@ant-design/icons";
 import {Space} from "antd";
 import {useEmotionCss} from "@ant-design/use-emotion-css";
 
-interface StartNodeProps {
+interface RobotNodeProps {
   size?: {
     width: number;
     height: number
@@ -11,12 +11,12 @@ interface StartNodeProps {
   data: any
 }
 
-const EndNode: React.FC<StartNodeProps> = (props) => {
+const RobotNode: React.FC<RobotNodeProps> = (props) => {
   const { size = { width: 120, height: 40 }, data } = props
   const { width, height } = size
   const { label, stroke, fill, fontFill, fontSize } = data
 
-  const endNodeClassName = useEmotionCss(() => ({
+  const robotNodeClassName = useEmotionCss(() => ({
     position: 'relative',
     display: 'flex',
     alignItems: 'center',
@@ -25,13 +25,13 @@ const EndNode: React.FC<StartNodeProps> = (props) => {
     overflow: 'hidden',
     background: '#fff',
     border: '1px solid #84b2e8',
-    borderRadius: '20px',
+    borderRadius: '5px',
     boxShadow: '0 1px 4px 0 rgba(0, 0, 0, 0.2)',
   }));
 
   return (
     <div
-      className={endNodeClassName}
+      className={robotNodeClassName}
       style={{
         width,
         height,
@@ -42,12 +42,12 @@ const EndNode: React.FC<StartNodeProps> = (props) => {
       }}
     >
       <Space>
-        <CarryOutTwoTone />
+        <SettingTwoTone />
         <span>{label}</span>
       </Space>
     </div>
   )
 };
 
-export default EndNode;
+export default RobotNode;
 
