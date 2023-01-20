@@ -124,7 +124,7 @@ export const FlowEditor: React.FC<IProps> = props => {
    * @param extensionRegistry 当前XFlow配置项
    */
   const onLoad: IAppLoad = async app => {
-    graphRef.current = await app.getGraphInstance()
+    graphRef.current = await app.getGraphInstance();
   }
 
   useEffect(() => {

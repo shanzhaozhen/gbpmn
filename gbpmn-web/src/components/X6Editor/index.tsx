@@ -1,111 +1,91 @@
-import React, {useEffect, useRef, useState} from "react";
+import {FC, useEffect, useState} from "react";
+import X6Flow from "@/components/X6Editor/X6Flow";
+import FlowGraph from "@/components/X6Editor/FlowGraph";
+import {EdgeMeta, GraphData, NodeMeta} from "@/components/X6Editor/types";
+import {Minimap} from "@/components/X6Editor/plugins/minimap";
 
-import { Graph, Shape } from '@antv/x6';
-import { Stencil } from '@antv/x6-plugin-stencil';
-import { Transform } from '@antv/x6-plugin-transform';
-import { Selection } from '@antv/x6-plugin-selection';
-import { Snapline } from '@antv/x6-plugin-snapline';
-import { Keyboard } from '@antv/x6-plugin-keyboard';
-import { Clipboard } from '@antv/x6-plugin-clipboard';
-import { History } from '@antv/x6-plugin-history';
-// import insertCss from 'insert-css'
+import './index.less'
 
-export interface X6EditorProps {
-  meta: { flowId: string }
-}
 
-const data = {
-  nodes: [
-    {
-      id: 'node1',
-      shape: 'rect',
-      x: 40,
-      y: 40,
-      width: 100,
-      height: 40,
-      label: 'hello',
-      attrs: {
-        // body 是选择器名称，选中的是 rect 元素
-        body: {
-          stroke: '#8f8f8f',
-          strokeWidth: 1,
-          fill: '#fff',
-          rx: 6,
-          ry: 6,
-        },
-      },
+const defaultNodeOptions: NodeMeta = {
+  width: 100,
+  height: 40,
+  attrs: {
+    body: {
+      stroke: "#8f8f8f",
+      strokeWidth: 1,
+      fill: "#fff",
+      rx: 6,
+      ry: 6
     },
-    {
-      id: 'node2',
-      shape: 'rect',
-      x: 160,
-      y: 180,
-      width: 100,
-      height: 40,
-      label: 'world',
-      attrs: {
-        body: {
-          stroke: '#8f8f8f',
-          strokeWidth: 1,
-          fill: '#fff',
-          rx: 6,
-          ry: 6,
-        },
-      },
-    },
-  ],
-  edges: [
-    {
-      shape: 'edge',
-      source: 'node1',
-      target: 'node2',
-      label: 'x6',
-      attrs: {
-        // line 是选择器名称，选中的边的 path 元素
-        line: {
-          stroke: '#8f8f8f',
-          strokeWidth: 1,
-        },
-      },
-    },
-  ],
-}
-
-const X6Editor: React.FC<X6EditorProps> = (props) => {
-
-  const container = useRef<HTMLDivElement>(null);
-  const [graph, setGraph] = useState<Graph>()
-
-  const init = () => {
-    const tmp = new Graph({
-      container: container,
-      // 设置画布背景颜色
-      background: {
-        color: '#F2F7FA',
-      },
-    })
-
-    tmp.fromJSON(data) // 渲染元素
-    tmp.centerContent() // 居中显示
-
-    setGraph(tmp);
   }
+}
+
+const defaultEdgeOptions: EdgeMeta = {
+  attrs: {
+    line: {
+      stroke: "#8f8f8f",
+      strokeWidth: 1
+    }
+  }
+}
+
+const graphConfig = {
+  background: {
+    color: "#F2F7FA"
+  },
+}
+
+
+const X6Editor: FC = () => {
+
+  const [data, setData] = useState<GraphData>([]);
+
+  const getGraphData = () => {
+    setData([
+      {
+        id: '1',
+        shape: 'rect',
+        x: 100,
+        y: 100,
+        label: 'source',
+      },
+      {
+        id: '2',
+        shape: 'rect',
+        x: 300,
+        y: 300,
+        label: 'target',
+      },
+      {
+        id: '3',
+        shape: 'edge',
+        source: '1',
+        target: '2',
+        label: 'text'
+      }
+    ])
+  };
 
   useEffect(() => {
-
-    return () => {
-      init();
-    }
+    getGraphData()
   }, [])
 
 
-
   return (
-    <div>
-      <div ref={container} />
+    <div className="container">
+      <X6Flow>
+        <FlowGraph
+          data={data}
+          defaultNodeOptions={defaultNodeOptions}
+          defaultEdgeOptions={defaultEdgeOptions}
+          configs={graphConfig}
+          centerContent
+        />
+        <Minimap width={80} height={80} padding={10}/>
+      </X6Flow>
     </div>
-  );
-
+  )
 }
 
-export default X6Editor;
+export default X6Editor

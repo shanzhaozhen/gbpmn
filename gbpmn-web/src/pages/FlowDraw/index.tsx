@@ -2,8 +2,6 @@ import {
   PageContainer,
 } from '@ant-design/pro-components';
 import React from 'react';
-import DAGEditor from "@/components/DAGEditor/basic";
-import FlowEditor from "@/components/FlowEditor";
 import X6Editor from "@/components/X6Editor";
 
 const FlowDraw: React.FC = () => {
@@ -12,7 +10,7 @@ const FlowDraw: React.FC = () => {
     <PageContainer>
       {/*<FlowEditor meta={{flowId: 'ddd'}}/>*/}
       {/*<DAGEditor meta={{flowId: 'ddd'}}/>*/}
-      <X6Editor meta={{flowId: 'ddd'}}/>
+      <X6Editor/>
     </PageContainer>
   );
 };

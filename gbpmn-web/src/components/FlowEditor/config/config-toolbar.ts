@@ -24,6 +24,7 @@ import {
   CopyOutlined,
   SnippetsOutlined,
 } from '@ant-design/icons'
+import {message} from "antd";
 
 const GROUP_NODE_RENDER_ID = 'GROUP_NODE_RENDER_ID'
 
@@ -177,6 +178,10 @@ namespace NSToolbarConfig {
       isEnabled: state.isGroupSelected,
       onClick: async ({ commandService, modelService }) => {
         const cell = await MODELS.SELECTED_NODE.useValue(modelService)
+        if (!cell) {
+          message.error('未选中节点')
+          return;
+        }
         const nodeConfig = cell.getData()
         commandService.executeCommand<NsGroupCmd.AddGroup.IArgs>(XFlowGroupCommands.DEL_GROUP.id, {
           nodeConfig: nodeConfig,

@@ -1,0 +1,8 @@
+import { useContext } from 'react'
+import GraphContext from "@/components/X6Editor/GraphContext";
+
+export const useGraph = () => {
+  const { graph } = useContext(GraphContext)
+
+  return graph
+}
