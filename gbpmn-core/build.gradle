@@ -4,10 +4,12 @@ apply plugin: 'java-library'
 
 dependencies {
 
-//    api(
-//    )
+    api(
+            "com.baomidou:mybatis-plus-annotation:${mybatisPlusVersion}",
+    )
 
     implementation(
+            "org.springdoc:springdoc-openapi-common:${springDocVersion}",
             'org.springframework.boot:spring-boot-starter-web',
     )
 
