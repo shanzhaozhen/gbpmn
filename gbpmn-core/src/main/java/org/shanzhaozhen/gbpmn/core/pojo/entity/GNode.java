@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,9 +20,19 @@ public class GNode {
 
     public String type;
 
-    public GEdge in;
+    public List<GEdge> in = new ArrayList<>();
 
-    public GEdge out;
+    public List<GEdge> out = new ArrayList<>();
 
+    public GEdge outWithID(String nextPeEdgeID) {
+        return out.stream().filter(e -> e.id.equals(nextPeEdgeID)).findFirst().get();
+    }
 
+    public GEdge outWithOutID(String nextPeEdgeID) {
+        return out.stream().filter(e -> !e.id.equals(nextPeEdgeID)).findFirst().get();
+    }
+
+    public GEdge onlyOneOut() {
+        return null;
+    }
 }

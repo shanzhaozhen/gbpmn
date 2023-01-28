@@ -1,4 +1,4 @@
-package org.shanzhaozhen.gbpmn.core.constant;
+package org.shanzhaozhen.gbpmn.core.pojo.constant;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,6 +14,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public enum FlowActionType {
 
+    LAUNCH("发起"),
+    TEMPORIZE("暂存"),
+    NOTIFY("通知"),
     AGREE("同意"),
     REJECT("驳回"),
     TRANSFER("转办"),

@@ -17,4 +17,7 @@ public class GProcess {
     public GNode start;
 
 
+    public GNode gNodeWithID(String peNodeID) {
+        return null;
+    }
 }

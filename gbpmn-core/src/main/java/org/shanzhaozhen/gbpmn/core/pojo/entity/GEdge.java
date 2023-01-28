@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Schema(description = "线")
 public class GEdge {
 
-    private String id;
+    public String id;
 
     public GNode from;
 
