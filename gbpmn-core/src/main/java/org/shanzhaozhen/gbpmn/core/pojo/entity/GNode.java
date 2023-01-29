@@ -16,20 +16,24 @@ import java.util.List;
 @Schema(description = "节点")
 public class GNode {
 
-    public String id;
+    @Schema(description = "主键ID")
+    private String id;
 
-    public String type;
+    @Schema(description = "节点类型")
+    private String type;
 
-    public List<GEdge> in = new ArrayList<>();
+    @Schema(description = "入线")
+    private List<GEdge> in = new ArrayList<>();
 
-    public List<GEdge> out = new ArrayList<>();
+    @Schema(description = "出线")
+    private List<GEdge> out = new ArrayList<>();
 
     public GEdge outWithID(String nextPeEdgeID) {
-        return out.stream().filter(e -> e.id.equals(nextPeEdgeID)).findFirst().get();
+        return out.stream().filter(e -> e.getId().equals(nextPeEdgeID)).findFirst().get();
     }
 
     public GEdge outWithOutID(String nextPeEdgeID) {
-        return out.stream().filter(e -> !e.id.equals(nextPeEdgeID)).findFirst().get();
+        return out.stream().filter(e -> !e.getId().equals(nextPeEdgeID)).findFirst().get();
     }
 
     public GEdge onlyOneOut() {

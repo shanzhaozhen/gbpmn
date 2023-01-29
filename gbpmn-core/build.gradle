@@ -5,12 +5,13 @@ apply plugin: 'java-library'
 dependencies {
 
     api(
-            "com.baomidou:mybatis-plus-annotation:${mybatisPlusVersion}",
+            "com.baomidou:mybatis-plus-boot-starter:${mybatisPlusVersion}",
     )
 
     implementation(
             "org.springdoc:springdoc-openapi-common:${springDocVersion}",
             'org.springframework.boot:spring-boot-starter-web',
+            'mysql:mysql-connector-java',
     )
 
 }

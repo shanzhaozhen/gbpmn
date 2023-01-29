@@ -26,7 +26,7 @@ public class ProcessEngine {
         while (true) {
             try {
                 GNode node = arrayBlockingQueue.take();
-                type2Operator.get(node.type).doTask(this, node, gContext);
+                type2Operator.get(node.getType()).doTask(this, node, gContext);
             } catch (Exception e) {
             }
         }
@@ -44,11 +44,11 @@ public class ProcessEngine {
         dispatchThread.setDaemon(true);
         dispatchThread.start();
 
-        executeNode(gProcess.start.onlyOneOut().to);
+        executeNode(gProcess.getStart().onlyOneOut().getTarget());
     }
 
     private void executeNode(GNode node) {
-        if (!node.type.equals("endEvent")) {
+        if (!node.getType().equals("endEvent")) {
             arrayBlockingQueue.add(node);
         } else {
             System.out.println("process finished!");
@@ -56,7 +56,7 @@ public class ProcessEngine {
     }
 
     public void nodeFinished(GEdge nextPeEdgeID) {
-        executeNode(nextPeEdgeID.to);
+        executeNode(nextPeEdgeID.getSource());
     }
 
 }

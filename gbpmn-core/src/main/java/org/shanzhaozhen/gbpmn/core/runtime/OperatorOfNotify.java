@@ -1,6 +1,6 @@
 package org.shanzhaozhen.gbpmn.core.runtime;
 
-import org.shanzhaozhen.gbpmn.core.pojo.constant.FlowActionType;
+import org.shanzhaozhen.gbpmn.core.constant.FlowActionType;
 import org.shanzhaozhen.gbpmn.core.pojo.entity.GContext;
 import org.shanzhaozhen.gbpmn.core.pojo.entity.GNode;
 
@@ -11,9 +11,12 @@ import org.shanzhaozhen.gbpmn.core.pojo.entity.GNode;
  * @Description: 通知
  */
 public class OperatorOfNotify implements IOperator {
+
+    private static final FlowActionType type = FlowActionType.NOTIFY;
+
     @Override
     public FlowActionType getType() {
-        return FlowActionType.NOTIFY;
+        return type;
     }
 
     @Override

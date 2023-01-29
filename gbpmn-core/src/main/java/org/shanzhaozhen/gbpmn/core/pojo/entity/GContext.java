@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class GContext {
 
-    private Map<String, Object> info = new ConcurrentHashMap<>();
+    private final Map<String, Object> info = new ConcurrentHashMap<>();
 
     public Object getValue(String key) {
         return info.get(key);

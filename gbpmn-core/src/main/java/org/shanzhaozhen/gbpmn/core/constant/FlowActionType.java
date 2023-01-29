@@ -1,4 +1,4 @@
-package org.shanzhaozhen.gbpmn.core.pojo.constant;
+package org.shanzhaozhen.gbpmn.core.constant;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

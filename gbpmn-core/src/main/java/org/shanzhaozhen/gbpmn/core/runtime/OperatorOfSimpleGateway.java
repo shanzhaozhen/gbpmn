@@ -1,6 +1,6 @@
 package org.shanzhaozhen.gbpmn.core.runtime;
 
-import org.shanzhaozhen.gbpmn.core.pojo.constant.FlowActionType;
+import org.shanzhaozhen.gbpmn.core.constant.FlowActionType;
 import org.shanzhaozhen.gbpmn.core.pojo.entity.GContext;
 import org.shanzhaozhen.gbpmn.core.pojo.entity.GEdge;
 import org.shanzhaozhen.gbpmn.core.pojo.entity.GNode;
@@ -15,9 +15,12 @@ import javax.script.ScriptException;
  * @Description: 简单是非判断
  */
 public class OperatorOfSimpleGateway implements IOperator {
+
+    private static final FlowActionType type = FlowActionType.NOTIFY;
+
     @Override
     public FlowActionType getType() {
-        return FlowActionType.AGREE;
+        return type;
     }
 
     @Override

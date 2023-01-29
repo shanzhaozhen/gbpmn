@@ -13,10 +13,16 @@ import lombok.NoArgsConstructor;
 @Schema(description = "线")
 public class GEdge {
 
-    public String id;
+    @Schema(description = "主键ID")
+    private String id;
 
-    public GNode from;
+    @Schema(description = "类型")
+    private String type;
 
-    public GNode to;
+    @Schema(description = "源节点")
+    private GNode source;
+
+    @Schema(description = "目标节点")
+    private GNode target;
 
 }
