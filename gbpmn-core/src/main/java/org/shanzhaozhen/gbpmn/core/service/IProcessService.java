@@ -9,6 +9,10 @@ import org.shanzhaozhen.gbpmn.core.pojo.entity.ProcessInstance;
  */
 public interface IProcessService {
 
+    /**
+     * 创建流程实例
+     * @param processInstance
+     */
     void addProcess(ProcessInstance processInstance);
 
 }

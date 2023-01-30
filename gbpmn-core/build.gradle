@@ -11,6 +11,8 @@ dependencies {
     implementation(
             "org.springdoc:springdoc-openapi-common:${springDocVersion}",
             'org.springframework.boot:spring-boot-starter-web',
+            'org.springframework.boot:spring-boot-starter-aop',
+            'org.springframework.boot:spring-boot-starter-data-redis',
             'mysql:mysql-connector-java',
     )
 

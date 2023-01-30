@@ -2,11 +2,13 @@ package org.shanzhaozhen.gbpmn.core.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.gbpmn.core.builder.GProcessParse;
+import org.shanzhaozhen.gbpmn.core.constant.RuntimeStatus;
 import org.shanzhaozhen.gbpmn.core.mapper.ProcessDiagramTemplateMapper;
 import org.shanzhaozhen.gbpmn.core.mapper.ProcessInstanceMapper;
 import org.shanzhaozhen.gbpmn.core.mapper.ProcessRuntimeMapper;
 import org.shanzhaozhen.gbpmn.core.mapper.ProcessTemplateMapper;
 import org.shanzhaozhen.gbpmn.core.pojo.entity.*;
+import org.shanzhaozhen.gbpmn.core.queue.ProcessQueue;
 import org.shanzhaozhen.gbpmn.core.service.IProcessService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,9 +63,13 @@ public class ProcessServiceImpl implements IProcessService {
                 .setTemplateId(processTemplate.getProcessDiagramTemplateId())       // 流程引用流程模板图模板ID
                 .setTemplateVersion(processTemplate.getContextTemplateVersion())    // 流程引用流程模板图模板版本号
                 .setNodeId(startNode.getId())                                       // 当前停留节点ID
+                .setStatus(RuntimeStatus.READY.getCode())                           // 当前运行状态
         ;
 
         processRuntimeMapper.insert(processRuntime);
 
+        // todo: 将节点发送到队列中
+        ProcessQueue processQueue = null;
+        processQueue.pushQueue(processRuntime.getId());
     }
 }
