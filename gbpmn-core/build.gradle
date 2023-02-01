@@ -5,6 +5,7 @@ apply plugin: 'java-library'
 dependencies {
 
     api(
+//            project('gbpmn-queue'),
             "com.baomidou:mybatis-plus-boot-starter:${mybatisPlusVersion}",
     )
 
@@ -14,6 +15,7 @@ dependencies {
             'org.springframework.boot:spring-boot-starter-aop',
             'org.springframework.boot:spring-boot-starter-data-redis',
             'mysql:mysql-connector-java',
+            'org.springframework.boot:spring-boot-starter-amqp'
     )
 
 }

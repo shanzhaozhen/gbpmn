@@ -1,0 +1,18 @@
+    description = 'gbpmn-queue'
+
+apply plugin: 'java-library'
+
+dependencies {
+
+    api(
+            "com.baomidou:mybatis-plus-boot-starter:${mybatisPlusVersion}",
+    )
+
+    implementation(
+            'org.springframework.boot:spring-boot-starter-amqp'
+    )
+
+}
+
+
+
