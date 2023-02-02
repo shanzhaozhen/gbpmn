@@ -17,6 +17,7 @@ dependencies {
             'mysql:mysql-connector-java',
             'org.springframework.boot:spring-boot-starter-amqp'
     )
+    implementation 'org.testng:testng:7.1.0'
 
 }
 
