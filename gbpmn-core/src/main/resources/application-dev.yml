@@ -1,5 +1,5 @@
 server:
-  port: 9000
+  port: 8080
 
 spring:
   datasource:
@@ -19,21 +19,21 @@ spring:
     ## Redis服务器连接密码（默认为空）
     password: 123456
 
-    #配置rabbitMq 服务器
-    rabbitmq:
-      host: 192.168.56.10
-      port: 5672
-      username: admin
-      password: admin
-      #虚拟host 可以不设置,使用server默认host
-      virtual-host: gbpmnHost
+  #配置rabbitMq 服务器
+  rabbitmq:
+    host: 192.168.56.10
+    port: 5672
+    username: admin
+    password: admin
+    #虚拟host 可以不设置,使用server默认host
+#    virtual-host: gbpmnHost
 
 
 rabbitmq:
   gbpmn:
-    queueName: gbpmn_queue
-    routingKey: gbpmn_queue_key
-    exchangeKey: gbpmn_queue_key
+    queueName: gbpmn_direct_queue
+    exchangeKey: gbpmn_direct_exchange
+    routingKey: gbpmn
 
 #mybatis-plus:
 #  configuration:

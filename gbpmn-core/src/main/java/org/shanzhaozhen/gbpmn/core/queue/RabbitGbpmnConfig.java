@@ -1,9 +1,11 @@
 package org.shanzhaozhen.gbpmn.core.queue;
 
+import lombok.Getter;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,28 +15,43 @@ import org.springframework.context.annotation.Configuration;
  * @Description:
  */
 @Configuration
+@Getter
 public class RabbitGbpmnConfig {
 
-    private String queueName = "TestDirectQueue";
-    private String exchangeKey = "TestDirectExchange";
-    private String routingKey = "TestDirectRouting";
+    @Value("${rabbitmq.gbpmn.queueName}")
+    private String queueName;
+    @Value("${rabbitmq.gbpmn.exchangeKey}")
+    private String exchangeKey;
+    @Value("${rabbitmq.gbpmn.routingKey}")
+    private String routingKey;
 
-    //队列 起名：TestDirectQueue
+    /**
+     * 声明队列名
+     * @return
+     */
     @Bean
-    public Queue TestDirectQueue() {
+    public Queue gbpmnQueue() {
         return new Queue(queueName,true);
     }
 
     //Direct交换机 起名：TestDirectExchange
+
+    /**
+     * 声明 direct 路由模式的交换机
+     * @return
+     */
     @Bean
-    DirectExchange TestDirectExchange() {
+    DirectExchange gbpmnExchange() {
         return new DirectExchange(exchangeKey);
     }
 
-    //绑定  将队列和交换机绑定, 并设置用于匹配键：TestDirectRouting
+    /**
+     * 绑定交换机与队列的关系
+     * @return
+     */
     @Bean
-    Binding bindingDirect() {
-        return BindingBuilder.bind(TestDirectQueue()).to(TestDirectExchange()).with(routingKey);
+    Binding gbpmnBinding() {
+        return BindingBuilder.bind(gbpmnQueue()).to(gbpmnExchange()).with(routingKey);
     }
 
 }

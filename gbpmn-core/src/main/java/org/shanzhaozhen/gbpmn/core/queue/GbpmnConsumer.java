@@ -1,5 +1,6 @@
 package org.shanzhaozhen.gbpmn.core.queue;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
@@ -12,12 +13,13 @@ import java.util.Map;
  * @Description:
  */
 @Component
-@RabbitListener(queues = "TestDirectQueue")//监听的队列名称 TestDirectQueue
-public class DirectReceiver {
+@RabbitListener(queues = "${rabbitmq.gbpmn.queueName}")     //监听的队列名称
+@Slf4j
+public class GbpmnConsumer {
 
     @RabbitHandler
-    public void process(Map testMessage) {
-        System.out.println("DirectReceiver消费者收到消息  : " + testMessage.toString());
+    public void process(String msg) {
+        log.info("消费者收到消息  : " + msg);
     }
 
 }
