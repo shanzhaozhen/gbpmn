@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public enum FlowActionType {
+public enum ProcessActionType {
 
     LAUNCH("发起"),
     TEMPORIZE("暂存"),

@@ -8,6 +8,7 @@ import org.shanzhaozhen.gbpmn.core.mapper.ProcessInstanceMapper;
 import org.shanzhaozhen.gbpmn.core.mapper.ProcessRuntimeMapper;
 import org.shanzhaozhen.gbpmn.core.mapper.ProcessTemplateMapper;
 import org.shanzhaozhen.gbpmn.core.pojo.entity.*;
+import org.shanzhaozhen.gbpmn.core.queue.GbpmnProducer;
 import org.shanzhaozhen.gbpmn.core.service.IProcessService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +26,7 @@ public class ProcessServiceImpl implements IProcessService {
     private final ProcessInstanceMapper processInstanceMapper;
     private final ProcessRuntimeMapper processRuntimeMapper;
     private final ProcessDiagramTemplateMapper processDiagramTemplateMapper;
+    private final GbpmnProducer gbpmnProducer;
 
     @Override
     @Transactional
@@ -67,8 +69,12 @@ public class ProcessServiceImpl implements IProcessService {
 
         processRuntimeMapper.insert(processRuntime);
 
-        // todo: 将节点发送到队列中
-//        ProcessQueue processQueue = null;
-//        processQueue.pushQueue(processRuntime.getId());
+        // 将节点发送到队列中
+        gbpmnProducer.pushQueue(processRuntime.getId());
     }
+
+    public void approvalProcess() {
+
+    }
+
 }

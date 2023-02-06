@@ -15,4 +15,10 @@ public interface IProcessService {
      */
     void addProcess(ProcessInstance processInstance);
 
+    /**
+     * 审批流程
+     */
+    void approvalProcess();
+
+
 }

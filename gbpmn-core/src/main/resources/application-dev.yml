@@ -31,8 +31,8 @@ spring:
 
 rabbitmq:
   gbpmn:
-    queueName: gbpmn_direct_queue
-    exchangeKey: gbpmn_direct_exchange
+    queueName: gbpmn.direct.queue
+    exchangeKey: direct_gbpmn_exchange
     routingKey: gbpmn
 
 #mybatis-plus:

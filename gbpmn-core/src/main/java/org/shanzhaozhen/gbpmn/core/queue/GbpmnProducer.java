@@ -19,12 +19,12 @@ public class GbpmnProducer {
 
     private final RabbitTemplate rabbitTemplate;
 
-    private final RabbitGbpmnConfig rabbitGbpmnConfig;
+    private final GbpmnQueueConfig gbpmnQueueConfig;
 
-    public void send(String msg) {
-        log.info("生产者发送队列：" + msg);
-        //指定交换机和路由键可以知道绑定的queue, 根据第二个参数完全匹配
-        rabbitTemplate.convertAndSend(rabbitGbpmnConfig.getRoutingKey(), msg);
+    public void pushQueue(String processRuntimeId) {
+        // 指定交换机和路由键可以知道绑定的queue, 根据第二个参数完全匹配
+        rabbitTemplate.convertAndSend(gbpmnQueueConfig.getExchangeKey(), gbpmnQueueConfig.getRoutingKey(), processRuntimeId);
+        log.info("流程队列入队，流程ID：{}", processRuntimeId);
     }
 
 }
