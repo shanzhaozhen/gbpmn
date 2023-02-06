@@ -2,16 +2,16 @@ package org.shanzhaozhen.gbpmn.core.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.gbpmn.core.builder.GProcessParse;
+import org.shanzhaozhen.gbpmn.core.constant.ProcessActionType;
 import org.shanzhaozhen.gbpmn.core.constant.RuntimeStatus;
-import org.shanzhaozhen.gbpmn.core.mapper.ProcessDiagramTemplateMapper;
-import org.shanzhaozhen.gbpmn.core.mapper.ProcessInstanceMapper;
-import org.shanzhaozhen.gbpmn.core.mapper.ProcessRuntimeMapper;
-import org.shanzhaozhen.gbpmn.core.mapper.ProcessTemplateMapper;
+import org.shanzhaozhen.gbpmn.core.mapper.*;
 import org.shanzhaozhen.gbpmn.core.pojo.entity.*;
 import org.shanzhaozhen.gbpmn.core.queue.GbpmnProducer;
 import org.shanzhaozhen.gbpmn.core.service.IProcessService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 /**
  * @Author: shanzhaozhen
@@ -25,6 +25,7 @@ public class ProcessServiceImpl implements IProcessService {
     private final ProcessTemplateMapper processTemplateMapper;
     private final ProcessInstanceMapper processInstanceMapper;
     private final ProcessRuntimeMapper processRuntimeMapper;
+    private final ProcessRecordMapper processRecordMapper;
     private final ProcessDiagramTemplateMapper processDiagramTemplateMapper;
     private final GbpmnProducer gbpmnProducer;
 
@@ -73,7 +74,82 @@ public class ProcessServiceImpl implements IProcessService {
         gbpmnProducer.pushQueue(processRuntime.getId());
     }
 
-    public void approvalProcess() {
+    public GProcess getProcessDiagram(ProcessRuntime processRuntime) {
+        String detail;
+
+        // 如果流程实施化后修改过流程则跟随修改
+        if (StringUtils.hasText(processRuntime.getDetail())) {
+            detail = processRuntime.getDetail();
+        } else {
+            ProcessDiagramTemplate processDiagramTemplate = processDiagramTemplateMapper
+                    .getProcessDiagramTemplateByIdAndVersion(processRuntime.getTemplateId(),
+                            processRuntime.getTemplateVersion());
+
+            Assert.notNull(processDiagramTemplate, "该流程模板不存在, 模板ID：" + processRuntime.getTemplateId() + "，版本号：" + processRuntime.getTemplateVersion());
+            detail = processDiagramTemplate.getDetail();
+        }
+
+        // 流程图 json 数组转换
+        // todo: 做 redis 缓存
+        return GProcessParse.jsonToGProcess(detail);
+    }
+
+    public void approvalProcess(ProcessAction processAction) {
+        ProcessInstance processInstance = processInstanceMapper.selectById(processAction.getProcessId());
+        Assert.notNull(processInstance, "该流程实例不存在，流程ID：" + processInstance);
+
+        ProcessRuntime processRuntime = processRuntimeMapper.getProcessRuntimeByProcessId(processAction.getProcessId());
+        Assert.notNull(processRuntime, "该流程不存在或已被处理");
+
+        GProcess processDiagram = getProcessDiagram(processRuntime);
+
+        // 进行对应的操作
+        if (ProcessActionType.AGREE.getCode().equals(processAction.getActionType())) {              // 通过审批
+            processAgree(processRuntime, processAction);
+        } else if (ProcessActionType.REJECT.getCode().equals(processAction.getActionType())) {      // 驳回
+            processReject(processRuntime, processAction);
+        } else {
+            throw new IllegalArgumentException("非法操作，流程ID：" + processInstance);
+        }
+
+        // 计算流程将执行的下一个节点
+        GNode nextNode = processDiagram.getNextNode(processRuntime.getNodeId());
+
+        // 更新流程运行时状态
+        processRuntime
+                .setNodeId(nextNode.getId())
+                .setStatus(RuntimeStatus.READY.getCode())
+        ;
+        processRuntimeMapper.updateById(processRuntime);
+
+        // 将节点发送到队列中
+        gbpmnProducer.pushQueue(processRuntime.getId());
+    }
+
+    public void processAgree(ProcessRuntime processRuntime, ProcessAction processAction) {
+        GProcess processDiagram = getProcessDiagram(processRuntime);
+        GNode currentNode = processDiagram.getNode(processRuntime.getNodeId());
+
+        // 记录流程操作
+        ProcessRecord processRecord = ProcessRecord.builder()
+                .content(processAction.getContent())
+                .nodeId(processRuntime.getNodeId())
+                .nodeName(currentNode.getId())
+                .operatorId("")
+                .operatorType(ProcessActionType.AGREE.getName())
+                .build();
+        processRecordMapper.insert(processRecord);
+    }
+
+    public void processReject(ProcessRuntime processRuntime, ProcessAction processAction) {
+
+    }
+
+    public void processTransfer() {
+
+    }
+
+    public void processAbandon() {
 
     }
 

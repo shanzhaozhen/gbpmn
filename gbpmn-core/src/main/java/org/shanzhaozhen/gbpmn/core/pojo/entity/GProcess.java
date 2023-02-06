@@ -29,12 +29,32 @@ public class GProcess {
     private Map<String, GEdge> edges;
 
     /**
+     * 获取节点
+     * @param nodeId
+     * @return
+     */
+    public GNode getNode(String nodeId) {
+        return null;
+    }
+
+    /**
      * 获取开始节点
      * @return
      */
     public GNode getStartNode() {
         return null;
     }
+
+    /**
+     * 获取下一节点
+     * @param preNode
+     * @return
+     */
+    public GNode getNextNode(String preNode) {
+        return null;
+    }
+
+
 
     public GNode gNodeWithID(String peNodeID) {
         return null;

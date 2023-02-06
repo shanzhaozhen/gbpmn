@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
  * @Description:
  */
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("g_process_record")
@@ -27,6 +29,9 @@ public class ProcessRecord extends BaseEntity {
     @Schema(description = "主键ID")
     @TableId(type = IdType.ASSIGN_ID)
     private String id;
+
+    @Schema(description = "节点id")
+    private String nodeId;
 
     @Schema(description = "节点名称")
     private String nodeName;

@@ -1,5 +1,6 @@
 package org.shanzhaozhen.gbpmn.core.service;
 
+import org.shanzhaozhen.gbpmn.core.pojo.entity.ProcessAction;
 import org.shanzhaozhen.gbpmn.core.pojo.entity.ProcessInstance;
 
 /**
@@ -18,7 +19,7 @@ public interface IProcessService {
     /**
      * 审批流程
      */
-    void approvalProcess();
+    void approvalProcess(ProcessAction processAction);
 
 
 }

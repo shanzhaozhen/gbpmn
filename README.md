@@ -10,7 +10,7 @@
 
 ### RabbitMQ docker-compose
 
-```yaml
+``` yaml
 version: '3.1'
 services:
   rabbitmq:
