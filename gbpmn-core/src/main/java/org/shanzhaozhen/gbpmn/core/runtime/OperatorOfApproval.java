@@ -1,6 +1,6 @@
 package org.shanzhaozhen.gbpmn.core.runtime;
 
-import org.shanzhaozhen.gbpmn.core.constant.FlowActionType;
+import org.shanzhaozhen.gbpmn.core.constant.ProcessActionType;
 import org.shanzhaozhen.gbpmn.core.pojo.entity.GContext;
 import org.shanzhaozhen.gbpmn.core.pojo.entity.GNode;
 
@@ -12,10 +12,10 @@ import org.shanzhaozhen.gbpmn.core.pojo.entity.GNode;
  */
 public class OperatorOfApproval implements IOperator {
 
-    private static final FlowActionType type = FlowActionType.AGREE;
+    private static final ProcessActionType type = ProcessActionType.AGREE;
 
     @Override
-    public FlowActionType getType() {
+    public ProcessActionType getType() {
         return type;
     }
 

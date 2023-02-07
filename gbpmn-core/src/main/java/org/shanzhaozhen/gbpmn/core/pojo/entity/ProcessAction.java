@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,5 +21,18 @@ public class ProcessAction {
 
     @Schema(description = "内容")
     private String content;
+
+    @Schema(description = "附件")
+    private List<String> annexes;
+
+    @Schema(description = "驳回方式")
+    private String rejectType;
+
+    @Schema(description = "转办人员")
+    private List<String> transferors;
+
+    @Schema(description = "沟通人员")
+    private List<String> communicationMembers;
+
 
 }

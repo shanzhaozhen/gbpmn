@@ -1,7 +1,6 @@
 package org.shanzhaozhen.gbpmn.core.queue;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +18,7 @@ public class TestController {
 
     @GetMapping("/test/rabbit/{msg}")
     public void test(@PathVariable String msg) {
-        gbpmnProducer.send(msg);
+        gbpmnProducer.pushQueue(msg);
     }
 
 }
