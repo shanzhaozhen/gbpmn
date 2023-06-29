@@ -3,6 +3,8 @@ package org.shanzhaozhen.gbpmn.core.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.shanzhaozhen.gbpmn.core.builder.GProcessParse;
 import org.shanzhaozhen.gbpmn.core.constant.ProcessActionType;
+import org.shanzhaozhen.gbpmn.core.constant.ProcessStatus;
+import org.shanzhaozhen.gbpmn.core.constant.RejectType;
 import org.shanzhaozhen.gbpmn.core.constant.RuntimeStatus;
 import org.shanzhaozhen.gbpmn.core.mapper.*;
 import org.shanzhaozhen.gbpmn.core.pojo.entity.*;
@@ -107,20 +109,10 @@ public class ProcessServiceImpl implements IProcessService {
         if (ProcessActionType.AGREE.getCode().equals(processAction.getActionType())) {              // 通过审批
             processAgree(processRuntime, processAction);
         } else if (ProcessActionType.REJECT.getCode().equals(processAction.getActionType())) {      // 驳回
-            processReject(processRuntime, processAction);
+            processReject(processInstance, processRuntime, processAction);
         } else {
             throw new IllegalArgumentException("非法操作，流程ID：" + processInstance);
         }
-
-        // 计算流程将执行的下一个节点
-        GNode nextNode = processDiagram.getNextNode(processRuntime.getNodeId());
-
-        // 更新流程运行时状态
-        processRuntime
-                .setNodeId(nextNode.getId())
-                .setStatus(RuntimeStatus.READY.getCode())
-        ;
-        processRuntimeMapper.updateById(processRuntime);
 
         // 将节点发送到队列中
         gbpmnProducer.pushQueue(processRuntime.getId());
@@ -139,10 +131,44 @@ public class ProcessServiceImpl implements IProcessService {
                 .operatorType(ProcessActionType.AGREE.getName())
                 .build();
         processRecordMapper.insert(processRecord);
+
+        // 计算流程将执行的下一个节点
+        GNode nextNode = processDiagram.getNextNode(processRuntime.getNodeId());
+
+        // 更新流程运行时状态
+        processRuntime
+                .setNodeId(nextNode.getId())
+                .setStatus(RuntimeStatus.READY.getCode())
+        ;
+        processRuntimeMapper.updateById(processRuntime);
     }
 
-    public void processReject(ProcessRuntime processRuntime, ProcessAction processAction) {
+    public void processReject(ProcessInstance processInstance, ProcessRuntime processRuntime, ProcessAction processAction) {
+        GProcess processDiagram = getProcessDiagram(processRuntime);
+        GNode currentNode = processDiagram.getNode(processRuntime.getNodeId());
 
+        // 记录流程操作
+        ProcessRecord processRecord = ProcessRecord.builder()
+                .content(processAction.getContent())
+                .nodeId(processRuntime.getNodeId())
+                .nodeName(currentNode.getId())
+                .operatorId("")
+                .operatorType(ProcessActionType.REJECT.getName() + "-" + processAction.getRejectType())
+                .build();
+        processRecordMapper.insert(processRecord);
+
+        GNode nextNode = processDiagram.getStartNode();
+
+        // 更新流程运行时状态
+        processRuntime
+                .setNodeId(nextNode.getId())
+                .setStatus(RuntimeStatus.READY.getCode())
+        ;
+        processRuntimeMapper.updateById(processRuntime);
+
+        // 更新流程实例状态
+        processInstance.setSubject(ProcessStatus.REJECT.getCode());
+        processInstanceMapper.updateById(processInstance);
     }
 
     public void processTransfer() {

@@ -21,6 +21,7 @@ public enum ProcessActionType {
     REJECT("驳回", "REJECT"),
     TRANSFER("转办", "TRANSFER"),
     COUNTERSIGN("加签", "COUNTERSIGN"),
+    COMMUNICATE("沟通", "COMMUNICATE"),
     ABANDON("废弃", "ABANDON"),
     ;
 

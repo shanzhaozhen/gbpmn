@@ -1,7 +1,9 @@
 package org.shanzhaozhen.gbpmn.core.service;
 
+import org.shanzhaozhen.gbpmn.core.pojo.entity.GProcess;
 import org.shanzhaozhen.gbpmn.core.pojo.entity.ProcessAction;
 import org.shanzhaozhen.gbpmn.core.pojo.entity.ProcessInstance;
+import org.shanzhaozhen.gbpmn.core.pojo.entity.ProcessRuntime;
 
 /**
  * @Author: shanzhaozhen
@@ -20,6 +22,13 @@ public interface IProcessService {
      * 审批流程
      */
     void approvalProcess(ProcessAction processAction);
+
+    /**
+     * 获取流程图
+     * @param processRuntime
+     * @return
+     */
+    GProcess getProcessDiagram(ProcessRuntime processRuntime);
 
 
 }
