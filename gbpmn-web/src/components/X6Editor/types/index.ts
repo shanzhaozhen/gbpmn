@@ -14,8 +14,8 @@ export type GraphData = (NodeMeta | EdgeMeta)[]
 export interface GraphOptions {
   configs: Graph.Options
   data: (NodeMeta | EdgeMeta)[]
-  defaultNodeOptions?: Node.Metadata
-  defaultEdgeOptions?: Edge.Metadata
+  nodeOptions?: Node.Metadata
+  edgeOptions?: Edge.Metadata
 
   readonly?: boolean
   centerContent?: boolean

@@ -10,6 +10,7 @@ import {GraphOptions} from "@/components/X6Editor/types";
 import GraphContext from "@/components/X6Editor/GraphContext";
 import {preprocess} from "@/components/X6Editor/util/model";
 
+
 const XFlowGraph: FC<GraphOptions> = (props) => {
   const container = useRef<HTMLDivElement>(null)
   const { graph, setGraph } = useContext(GraphContext)
@@ -26,12 +27,11 @@ const XFlowGraph: FC<GraphOptions> = (props) => {
 
   useLayoutEffect(() => {
     if (graph && props.data.length > 0) {
-      const { data, defaultNodeOptions, defaultEdgeOptions, centerContent } =
-        props
+      const { data, nodeOptions, edgeOptions, centerContent } = props
       const model = preprocess(
         data,
-        defaultNodeOptions,
-        defaultEdgeOptions,
+        nodeOptions,
+        edgeOptions,
       )
       graph.fromJSON(model)
 
@@ -42,9 +42,7 @@ const XFlowGraph: FC<GraphOptions> = (props) => {
   }, [graph, props.data])
 
   return (
-    <div style={{ width: '100%', height: '100%' }}>
-      <div ref={container} style={{ width: '100%', height: '100%' }} />
-    </div>
+    <div className="app-content" ref={container}/>
   )
 };
 

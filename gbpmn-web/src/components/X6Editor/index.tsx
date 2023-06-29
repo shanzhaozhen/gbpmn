@@ -4,8 +4,9 @@ import FlowGraph from "@/components/X6Editor/FlowGraph";
 import {EdgeMeta, GraphData, NodeMeta} from "@/components/X6Editor/types";
 import {Minimap} from "@/components/X6Editor/plugins/minimap";
 
-import './index.less'
+import {GraphToolbar} from "@/components/GraphToolbar";
 
+import './index.less'
 
 const defaultNodeOptions: NodeMeta = {
   width: 100,
@@ -25,15 +26,28 @@ const defaultEdgeOptions: EdgeMeta = {
   attrs: {
     line: {
       stroke: "#8f8f8f",
-      strokeWidth: 1
+      strokeWidth: 1,
+      targetMarker: {
+        name: 'classic',
+        size: 6,
+      },
     }
   }
 }
 
 const graphConfig = {
   background: {
-    color: "#F2F7FA"
+    // color: "#F2F7FA"
   },
+  grid: {
+    visible: true,
+    type: 'dot',
+    size: 10,
+    args: {
+      color: '#a0a0a0', // 网格线/点颜色
+      thickness: 1,     // 网格线宽度/网格点大小
+    },
+  }
 }
 
 
@@ -73,16 +87,17 @@ const X6Editor: FC = () => {
 
 
   return (
-    <div className="container">
+    <div className="background-grid-app">
       <X6Flow>
         <FlowGraph
           data={data}
-          defaultNodeOptions={defaultNodeOptions}
-          defaultEdgeOptions={defaultEdgeOptions}
+          nodeOptions={defaultNodeOptions}
+          edgeOptions={defaultEdgeOptions}
           configs={graphConfig}
           centerContent
         />
-        <Minimap width={80} height={80} padding={10}/>
+        <GraphToolbar className="fdfd" items={[]}></GraphToolbar>
+        <Minimap width={200} height={120} padding={8} bottom={12} right={12} />
       </X6Flow>
     </div>
   )
