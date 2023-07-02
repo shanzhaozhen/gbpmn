@@ -3,28 +3,22 @@ import { MiniMap } from '@antv/x6-plugin-minimap'
 import { useGraph } from '../../hooks/graph'
 
 import {useEmotionCss} from "@ant-design/use-emotion-css";
+import {IPosition} from "@/components/X6Editor/types";
 
-export interface IPosition {
-  width?: number
-  height?: number
-  lineHeight?: number
-  top?: number
-  left?: number
-  right?: number
-  bottom?: number
+
+const defaultPosition: IPosition = {
+  bottom: 12,
+  right: 12,
 }
 
-export const Minimap: FC<Omit<MiniMap.Options, 'container'> & IPosition> = (props) => {
+export const Minimap: FC<Omit<MiniMap.Options, 'container'> & { position?: IPosition }> = (props) => {
   const graph = useGraph()
   const mapRef = useRef<HTMLDivElement | null>(null)
 
-  const { bottom, right } = props
+  const { position } = props
 
-  const appMinimapClassName = useEmotionCss(() => {
-    return {
+  const appMinimapClassName = useEmotionCss(() => ({
       position: 'absolute',
-      bottom: bottom || 12,
-      right: right || 12,
       zIndex: 999,
       background: '#fff',
       boxShadow: '0 0 10px 0 rgba(0,0,0,.15)',
@@ -41,10 +35,10 @@ export const Minimap: FC<Omit<MiniMap.Options, 'container'> & IPosition> = (prop
         },
         '.x6-widget-minimap-viewport-zoom': {
           border: '1px solid rgba(0,0,0,.3)'
-        }
+        },
       },
-    };
-  });
+      ...(position || defaultPosition)
+    }));
 
 
   const initMinimap = useCallback(() => {

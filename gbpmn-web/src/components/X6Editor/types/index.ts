@@ -22,3 +22,18 @@ export interface GraphOptions {
   zoomToFit?: boolean
   layout?: any // todo
 }
+
+/**
+ * 用于定位元素
+ */
+export interface IPosition {
+  width?: number
+  height?: number
+  lineHeight?: number
+  top?: number
+  left?: number
+  right?: number
+  bottom?: number
+}
+
+export type IToolbarLayout = 'horizontal' | 'vertical' | 'vertical' | 'horizontal-center'

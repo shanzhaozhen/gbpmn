@@ -1,4 +1,4 @@
-import {FC, useEffect, useState} from "react";
+import {FC, useEffect, useRef, useState} from "react";
 import X6Flow from "@/components/X6Editor/X6Flow";
 import FlowGraph from "@/components/X6Editor/FlowGraph";
 import {EdgeMeta, GraphData, NodeMeta} from "@/components/X6Editor/types";
@@ -7,6 +7,7 @@ import {Minimap} from "@/components/X6Editor/plugins/minimap";
 import {GraphToolbar} from "@/components/GraphToolbar";
 
 import './index.less'
+import {ScaleToolbar} from "@/components/X6Editor/plugins/ScaleToolbar";
 
 const defaultNodeOptions: NodeMeta = {
   width: 100,
@@ -52,6 +53,7 @@ const graphConfig = {
 
 
 const X6Editor: FC = () => {
+  const container = useRef<HTMLDivElement>(null)
 
   const [data, setData] = useState<GraphData>([]);
 
@@ -87,7 +89,7 @@ const X6Editor: FC = () => {
 
 
   return (
-    <div className="background-grid-app">
+    <div className="background-grid-app" ref={container}>
       <X6Flow>
         <FlowGraph
           data={data}
@@ -97,7 +99,8 @@ const X6Editor: FC = () => {
           centerContent
         />
         <GraphToolbar className="fdfd" items={[]}></GraphToolbar>
-        <Minimap width={200} height={120} padding={8} bottom={12} right={12} />
+        <Minimap width={200} height={120} padding={8} position={{bottom: 12, right:12}} />
+        <ScaleToolbar layout="horizontal" position={{ top: 12, left: 12 }} />
       </X6Flow>
     </div>
   )
