@@ -15,6 +15,8 @@ import {
 import Item = Toolbar.Item;
 import {useEmotionCss} from "@ant-design/use-emotion-css";
 
+import './index.less'
+
 export interface IToolbarProps {
   // toolbarConfig 用于设置model的toolbarItems
   // config: ToolbarConfig
@@ -37,17 +39,66 @@ export const ScaleToolbar: FC<IToolbarProps> = (props) => {
 
   const { layout, position } = props
 
-  const layoutClassName = useEmotionCss(() => {
-    return layout === 'vertical' ? {
-      right: 'unset',
-      left: 'unset',
-      width: '32px',
-      height: 'auto',
-      border: '1px solid rgba(0,0,0,.04)',
-      borderRadius: '4px',
-      boxShadow: '0 0 20px rgb(0 0 0/1%)',
-    } : {}
+  const x6ToolbarClassName = useEmotionCss(() => {
+    return {
+      position: 'absolute',
+      zIndex: 99,
+      display: 'flex',
+      height: '40px',
+      background: '#fff',
+      '&-root': {
+        display: 'flex',
+        justifyContent: "space-between",
+        width: '100%',
+        '&.horizontal-center': {
+          justifyContent: 'center'
+        },
+        '&.vertical': {
+          flexDirection: 'column',
+        },
+        '.x6-toolbar.x6-toolbar-hover-effect': {
+          alignItems: 'center',
+          height: '100%',
+        },
+        '.x6-toolbar-content': {
+          height: '100%',
+        }
+      },
+    }
   })
+
+
+  const x6ToolbarVerticalClassName = useEmotionCss(() => ({
+    right: 'unset',
+    left: 'unset',
+    width: '32px',
+    height: 'auto',
+    border: '1px solid rgba(0, 0, 0, 0.04)',
+    borderRadius: '4px',
+    boxShadow: '~0 0 20px rgb(0 0 0 / 1%)',
+    '.x6-toolbar.x6-toolbar-hover-effect': {
+      height: 'auto',
+      padding: '8px 0',
+    },
+    '.x6-toolbar-content-inner .x6-toolbar-group': {
+      flexDirection: 'column',
+    },
+    '.x6-toolbar-item': {
+      margin: 0,
+      padding: '6px 8px',
+      color: '#595959',
+    }
+  }))
+
+  const x6ToolbarHorizontalClassName = useEmotionCss(() => ({
+    right: 0,
+    left: 0,
+    '.x6-toolbar.x6-toolbar-hover-effect': {
+      height: '40px,',
+      lineHeight: '40px',
+    }
+  }))
+
 
 
   // 全屏监听
@@ -68,8 +119,8 @@ export const ScaleToolbar: FC<IToolbarProps> = (props) => {
     initMinimap()
   }, [toolBarRef, graph, initMinimap])
 
-  return <div className={layoutClassName} ref={toolBarRef} >
-    <Toolbar>
+  return <div className={`${x6ToolbarClassName} ${x6ToolbarVerticalClassName}`} ref={toolBarRef} >
+    <Toolbar hoverEffect={true}>
       <Item
         name="zoomIn"
         tooltip="放大"
