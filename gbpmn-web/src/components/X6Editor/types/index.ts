@@ -36,4 +36,12 @@ export interface IPosition {
   bottom?: number
 }
 
+export interface IMiniMapProps {
+  nodeFillColor?: string
+  borderColor?: string
+  handlerColor?: string
+  miniMapClz?: string
+  position?: IPosition
+}
+
 export type IToolbarLayout = 'horizontal' | 'vertical' | 'vertical' | 'horizontal-center'

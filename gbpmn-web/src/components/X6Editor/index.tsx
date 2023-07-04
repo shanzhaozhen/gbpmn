@@ -99,7 +99,7 @@ const X6Editor: FC = () => {
           centerContent
         />
         <GraphToolbar className="fdfd" items={[]}></GraphToolbar>
-        <Minimap width={200} height={120} padding={8} position={{bottom: 12, right:12}} />
+        <Minimap width={200} height={120} padding={8} />
         <ScaleToolbar layout="vertical" position={{ top: 12, left: 12 }} />
       </X6Flow>
     </div>

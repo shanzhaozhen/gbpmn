@@ -19,6 +19,8 @@ const XFlowGraph: FC<GraphOptions> = (props) => {
     const graph = new Graph({
       container: container.current!,
       autoResize: true,
+      panning: true,
+      mousewheel: true,
       ...props.configs,
     })
 
